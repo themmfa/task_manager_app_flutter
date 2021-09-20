@@ -10,6 +10,7 @@ class AllTasks extends StatefulWidget {
 }
 
 class _AllTasksState extends State<AllTasks> {
+  List tasks = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,44 +29,44 @@ class _AllTasksState extends State<AllTasks> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Center(
-              child: Text(
-                "Nothing to show for now!",
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                ),
-              ),
+              child: (tasks.length == 0)
+                  ? Text(
+                      "Nothing to show for now!",
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                      ),
+                    )
+                  : Container(
+                      height: 300,
+                      color: Colors.red,
+                    ),
             ),
-            Positioned(
-              bottom: 25,
-              left: 0,
-              right: 0,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddTask(),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: 80,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [Colors.blue, Colors.blueAccent],
-                    ),
-                    shape: BoxShape.circle,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddTask(),
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 35,
-                    ),
+                );
+              },
+              child: Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [Colors.blue, Colors.blueAccent],
+                  ),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 35,
                   ),
                 ),
               ),
