@@ -61,7 +61,11 @@ class _AllTasksState extends State<AllTasks> {
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: Icon(Icons.add),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 35,
+                    ),
                   ),
                 ),
               ),
