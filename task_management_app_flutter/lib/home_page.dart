@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_management_app_flutter/add_task.dart';
 
 class AllTasks extends StatefulWidget {
   const AllTasks({Key? key}) : super(key: key);
@@ -42,7 +43,10 @@ class _AllTasksState extends State<AllTasks> {
                     ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddTask()));
+              },
               child: Container(
                 height: 80,
                 width: 80,
