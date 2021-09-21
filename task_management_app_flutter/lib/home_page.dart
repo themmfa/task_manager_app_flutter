@@ -43,28 +43,37 @@ class _AllTasksState extends State<AllTasks> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              height: 300,
+              height: 500,
               child: Center(
-                child: (_tasks.length == 0)
-                    ? Text(
-                        "Nothing to show for now!",
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                        ),
-                      )
-                    : Container(
-                        height: 300,
-                        color: Colors.red,
-                        child: Container(
-                          child: ListView.builder(
-                            itemCount: _tasks.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Text(_tasks[index].title ?? "");
-                            },
+                  child: (_tasks.length == 0)
+                      ? Text(
+                          "Nothing to show for now!",
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
                           ),
-                        ),
-                      ),
-              ),
+                        )
+                      : ListView.builder(
+                          padding: EdgeInsets.all(10),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Title: ${_tasks[index].title}"),
+                                  Text("Text: ${_tasks[index].text}"),
+                                  Row(
+                                    children: [
+                                      Text(
+                                          "Due Time: ${_tasks[index].selectedTime}"),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount: _tasks.length,
+                        )),
             ),
             InkWell(
               onTap: () {
