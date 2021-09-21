@@ -62,27 +62,29 @@ class _AllTasksState extends State<AllTasks> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Title: ${_tasks[index].title!}",
-                                          style: kNormalTextStyle,
-                                        ),
-                                        Text(
-                                          "Text: ${_tasks[index].text!}",
-                                          style: kNormalTextStyle,
-                                        ),
-                                        Text(
-                                          "Due Time: ${_tasks[index].selectedTime!}",
-                                          style: kNormalTextStyle,
-                                        ),
-                                        Text(
-                                          "Due Date: ${_tasks[index].selectedDate!}",
-                                          style: kNormalTextStyle,
-                                        ),
-                                      ],
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Title: ${_tasks[index].title!}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                          Text(
+                                            "Text: ${_tasks[index].text!}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                          Text(
+                                            "Due Time: ${_tasks[index].selectedTime!}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                          Text(
+                                            "Due Date: ${_tasks[index].selectedDate!}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     IconButton(
                                       onPressed: () {
