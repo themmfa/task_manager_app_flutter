@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:task_management_app_flutter/models/list_items.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:intl/intl.dart';
 
 class AddTask extends StatefulWidget {
   @override
@@ -111,13 +111,17 @@ class _AddTaskState extends State<AddTask> {
                 ElevatedButton(
                   child: Text("Add Task"),
                   onPressed: () {
+                    String formatedDate =
+                        DateFormat("MM-dd-yyyy").format(_selectedDate!);
+                    String formattedTime =
+                        DateFormat("hh:mm").format(_dateTime!);
                     setState(() {
                       itemList.add(
                         ListItems(
                           title: _titleController.text,
                           text: _textController.text,
-                          selectedDayTime: _selectedDate,
-                          selectedTime: _dateTime,
+                          selectedTime: formattedTime,
+                          selectedDate: formatedDate,
                         ),
                       );
                     });

@@ -1,12 +1,12 @@
 class ListItems {
   String? title;
   String? text;
-  DateTime? selectedDayTime;
-  DateTime? selectedTime;
+  String? selectedTime;
+  String? selectedDate;
 
   ListItems(
       {required this.title,
       required this.text,
-      required this.selectedDayTime,
+      this.selectedDate,
       this.selectedTime});
 }

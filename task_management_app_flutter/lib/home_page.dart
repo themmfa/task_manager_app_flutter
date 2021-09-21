@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management_app_flutter/add_task.dart';
+import 'package:task_management_app_flutter/constants.dart';
 import 'package:task_management_app_flutter/models/list_items.dart';
 
 class AllTasks extends StatefulWidget {
@@ -53,22 +54,46 @@ class _AllTasksState extends State<AllTasks> {
                           ),
                         )
                       : ListView.builder(
-                          padding: EdgeInsets.all(10),
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              decoration: BoxDecoration(),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Title: ${_tasks[index].title}"),
-                                  Text("Text: ${_tasks[index].text}"),
-                                  Row(
-                                    children: [
-                                      Text(
-                                          "Due Time: ${_tasks[index].selectedTime}"),
-                                    ],
-                                  ),
-                                ],
+                            return Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Title: ${_tasks[index].title!}",
+                                          style: kNormalTextStyle,
+                                        ),
+                                        Text(
+                                          "Text: ${_tasks[index].text!}",
+                                          style: kNormalTextStyle,
+                                        ),
+                                        Text(
+                                          "Due Time: ${_tasks[index].selectedTime!}",
+                                          style: kNormalTextStyle,
+                                        ),
+                                        Text(
+                                          "Due Date: ${_tasks[index].selectedDate!}",
+                                          style: kNormalTextStyle,
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _tasks.remove(_tasks[index]);
+                                        });
+                                      },
+                                      icon: Icon(Icons.delete),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
