@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management_app_flutter/add_task.dart';
+import 'package:task_management_app_flutter/models/list_items.dart';
 
 class AllTasks extends StatefulWidget {
   const AllTasks({Key? key}) : super(key: key);
@@ -10,7 +11,19 @@ class AllTasks extends StatefulWidget {
 }
 
 class _AllTasksState extends State<AllTasks> {
-  List tasks = [];
+  List<ListItems> _tasks = [];
+
+  void updateInformation(List<ListItems> tasks) {
+    setState(() {
+      _tasks..addAll(tasks);
+    });
+  }
+
+  void moveToSecondScreen() async {
+    final tasks = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => AddTask()));
+    updateInformation(tasks);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +42,33 @@ class _AllTasksState extends State<AllTasks> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Center(
-              child: (tasks.length == 0)
-                  ? Text(
-                      "Nothing to show for now!",
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
+            Container(
+              height: 300,
+              child: Center(
+                child: (_tasks.length == 0)
+                    ? Text(
+                        "Nothing to show for now!",
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                        ),
+                      )
+                    : Container(
+                        height: 300,
+                        color: Colors.red,
+                        child: Container(
+                          child: ListView.builder(
+                            itemCount: _tasks.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Text(_tasks[index].title ?? "");
+                            },
+                          ),
+                        ),
                       ),
-                    )
-                  : Container(
-                      height: 300,
-                      color: Colors.red,
-                    ),
+              ),
             ),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddTask()));
+                moveToSecondScreen();
               },
               child: Container(
                 height: 80,

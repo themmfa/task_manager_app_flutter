@@ -114,13 +114,14 @@ class _AddTaskState extends State<AddTask> {
                     setState(() {
                       itemList.add(
                         ListItems(
-                            title: _titleController.text,
-                            text: _textController.text,
-                            selectedDayTime: _selectedDate,
-                            selectedTime: _dateTime),
+                          title: _titleController.text,
+                          text: _textController.text,
+                          selectedDayTime: _selectedDate,
+                          selectedTime: _dateTime,
+                        ),
                       );
                     });
-                    Navigator.pop(context);
+                    Navigator.pop(context, itemList);
                   },
                 ),
               ],
