@@ -5,6 +5,7 @@ import 'package:task_management_app_flutter/constants.dart';
 import 'package:task_management_app_flutter/models/list_items.dart';
 
 class AllTasks extends StatefulWidget {
+  static const String id = "all_tasks";
   const AllTasks({Key? key}) : super(key: key);
 
   @override
