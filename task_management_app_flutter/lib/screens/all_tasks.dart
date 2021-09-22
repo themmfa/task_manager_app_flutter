@@ -20,7 +20,6 @@ class AllTasks extends StatefulWidget {
 
 class _AllTasksState extends State<AllTasks> {
   final _auth = FirebaseAuth.instance;
-  List<ListItems> _tasks = [];
 
   void getCurrentUser() async {
     try {
@@ -67,12 +66,15 @@ class _AllTasksState extends State<AllTasks> {
 }
 
 class TaskList extends StatefulWidget {
+  final String? id;
+  const TaskList({Key? key, this.id}) : super(key: key);
   @override
   _TaskListState createState() => _TaskListState();
 }
 
 class _TaskListState extends State<TaskList> {
   final _auth = FirebaseAuth.instance;
+  String? email;
 
   void getCurrentUser() async {
     try {
@@ -163,18 +165,22 @@ class _TaskListState extends State<TaskList> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(data['title'],
+                                      Text("Title: ${data['title']}",
                                           style: kNormalTextStyle),
                                       Text(
-                                        data['text'],
+                                        "Text: ${data['text']}",
                                         style: kNormalTextStyle,
                                       ),
                                       Text(
-                                        data['date'],
+                                        "Date: ${data['date']}",
                                         style: kNormalTextStyle,
                                       ),
                                       Text(
-                                        data['time'],
+                                        "Time: ${data['time']}",
+                                        style: kNormalTextStyle,
+                                      ),
+                                      Text(
+                                        "Email: ${data['email']}",
                                         style: kNormalTextStyle,
                                       ),
                                     ],
@@ -183,7 +189,7 @@ class _TaskListState extends State<TaskList> {
                                 IconButton(
                                   icon: Icon(Icons.delete),
                                   onPressed: () {},
-                                )
+                                ),
                               ],
                             ),
                           ),

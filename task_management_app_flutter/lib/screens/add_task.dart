@@ -22,7 +22,7 @@ class _AddTaskState extends State<AddTask> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final _auth = FirebaseAuth.instance;
-  int index = 0;
+  String? id;
 
   final _titleController = TextEditingController();
   final _textController = TextEditingController();
@@ -147,7 +147,6 @@ class _AddTaskState extends State<AddTask> {
                       'time': formattedTime,
                       'email': loggedInUser!.email,
                     });
-
                     Navigator.pop(context, _firestore);
                   },
                 ),
