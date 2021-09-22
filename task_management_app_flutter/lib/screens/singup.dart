@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:task_management_app_flutter/components/reusable_button.dart';
 import 'package:task_management_app_flutter/constants.dart';
 import 'package:task_management_app_flutter/screens/all_tasks.dart';
+import 'package:task_management_app_flutter/screens/login.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = "signup_screen";
@@ -88,7 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     password: myPasswordController.text,
                   );
                   if (newUser != null) {
-                    Navigator.pushNamed(context, AllTasks.id);
+                    Navigator.pushNamed(context, LoginPage.id);
                   }
                 } catch (e) {
                   print(e);
