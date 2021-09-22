@@ -114,7 +114,7 @@ class _AddTaskState extends State<AddTask> {
                     String formatedDate =
                         DateFormat("MM-dd-yyyy").format(_selectedDate!);
                     String formattedTime =
-                        DateFormat("hh:mm").format(_dateTime!);
+                        DateFormat("HH:mm").format(_dateTime!);
                     setState(() {
                       itemList.add(
                         ListItems(
