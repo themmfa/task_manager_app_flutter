@@ -153,8 +153,8 @@ class _TaskListState extends State<TaskList> {
                             document.data()! as Map<String, dynamic>;
                         return Card(
                           child: Padding(
-                            padding:
-                                EdgeInsets.only(top: 10, bottom: 10, left: 10),
+                            padding: EdgeInsets.only(
+                                top: 10, bottom: 10, left: 10, right: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -180,6 +180,10 @@ class _TaskListState extends State<TaskList> {
                                     ],
                                   ),
                                 ),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {},
+                                )
                               ],
                             ),
                           ),
