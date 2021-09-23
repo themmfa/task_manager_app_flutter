@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 24,
@@ -31,16 +32,16 @@ class _HomePageState extends State<HomePage> {
                   child: Icon(
                     FontAwesomeIcons.clock,
                     size: 80,
-                    color: Colors.blueAccent,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  width: 5,
                 ),
                 Text(
                   "Task Manager",
                   style: GoogleFonts.poppins(
-                    color: Colors.blue,
+                    color: Colors.white,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                   ),

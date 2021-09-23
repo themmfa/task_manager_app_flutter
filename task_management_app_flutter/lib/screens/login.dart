@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 24,
@@ -40,16 +41,16 @@ class _LoginPageState extends State<LoginPage> {
                   child: Icon(
                     FontAwesomeIcons.clock,
                     size: 100,
-                    color: Colors.blueAccent,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
-                  width: 20,
+                  width: 40,
                 ),
                 Text(
                   "Login",
                   style: GoogleFonts.poppins(
-                    color: Colors.blue,
+                    color: Colors.white,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                   ),
@@ -63,8 +64,9 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
               controller: myEmailController,
-              decoration:
-                  kTextFieldDecoration.copyWith(hintText: "Enter your email"),
+              decoration: kTextFieldDecoration.copyWith(
+                  hintText: "Enter your email",
+                  hintStyle: TextStyle(color: Colors.white)),
             ),
             SizedBox(
               height: 10,
@@ -75,7 +77,9 @@ class _LoginPageState extends State<LoginPage> {
               textAlign: TextAlign.center,
               controller: myPasswordController,
               decoration: kTextFieldDecoration.copyWith(
-                  hintText: "Enter your password"),
+                hintText: "Enter your password",
+                hintStyle: TextStyle(color: Colors.white),
+              ),
             ),
             SizedBox(
               height: 24,

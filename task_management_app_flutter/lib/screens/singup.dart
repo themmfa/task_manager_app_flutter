@@ -25,6 +25,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 24,
@@ -39,16 +40,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Icon(
                     FontAwesomeIcons.clock,
                     size: 100,
-                    color: Colors.blueAccent,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
-                  width: 20,
+                  width: 40,
                 ),
                 Text(
                   "SignUp",
                   style: GoogleFonts.poppins(
-                    color: Colors.blue,
+                    color: Colors.white,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                   ),
@@ -62,8 +63,10 @@ class _SignUpPageState extends State<SignUpPage> {
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
               controller: myEmailController,
-              decoration:
-                  kTextFieldDecoration.copyWith(hintText: "Enter your email"),
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: "Enter your email",
+                hintStyle: TextStyle(color: Colors.white),
+              ),
             ),
             SizedBox(
               height: 10,
@@ -74,7 +77,9 @@ class _SignUpPageState extends State<SignUpPage> {
               textAlign: TextAlign.center,
               controller: myPasswordController,
               decoration: kTextFieldDecoration.copyWith(
-                  hintText: "Enter your password"),
+                hintText: "Enter your password",
+                hintStyle: TextStyle(color: Colors.white),
+              ),
             ),
             SizedBox(
               height: 24,

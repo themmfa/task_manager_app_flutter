@@ -42,8 +42,11 @@ class _AllTasksState extends State<AllTasks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       appBar: AppBar(
-        leading: null,
+        backgroundColor: Colors.blueAccent,
+        elevation: 0,
+        bottomOpacity: 0,
         actions: [
           IconButton(
             onPressed: () {
@@ -116,10 +119,6 @@ class _TaskListState extends State<TaskList> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "There is nothing to show for now!",
-                        style: GoogleFonts.poppins(fontSize: 20),
-                      ),
                       InkWell(
                         onTap: () {
                           Navigator.push(
@@ -163,6 +162,8 @@ class _TaskListState extends State<TaskList> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot doc = snapshot.data!.docs[index];
                             return Card(
+                              color: Colors.blueAccent,
+                              elevation: 0,
                               child: Padding(
                                 padding: EdgeInsets.only(
                                   top: 10,
@@ -201,11 +202,17 @@ class _TaskListState extends State<TaskList> {
                                       ),
                                     ),
                                     IconButton(
-                                      icon: Icon(Icons.edit),
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                      ),
                                       onPressed: () {},
                                     ),
                                     IconButton(
-                                      icon: Icon(Icons.delete),
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                      ),
                                       onPressed: () {
                                         doc.reference.delete();
                                       },
@@ -229,19 +236,14 @@ class _TaskListState extends State<TaskList> {
                           height: 80,
                           width: 80,
                           decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            gradient: LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomRight,
-                              colors: [Colors.blue, Colors.blueAccent],
-                            ),
+                            color: Colors.white,
                             shape: BoxShape.circle,
                           ),
                           child: Center(
                             child: Icon(
                               Icons.add,
                               size: 35,
-                              color: Colors.white,
+                              color: Colors.blueAccent,
                             ),
                           ),
                         ),
