@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                     await Navigator.pushNamed(context, AllTasks.id);
                   }
                 } catch (e) {
-                  String newString = e.toString().split("]").removeLast();
+                  String newString = e.toString().split("] ").removeLast();
                   setState(() {
                     showDialog(
                         context: context,

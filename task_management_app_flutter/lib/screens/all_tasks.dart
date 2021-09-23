@@ -76,13 +76,17 @@ class TaskList extends StatefulWidget {
 class _TaskListState extends State<TaskList> {
   final _auth = FirebaseAuth.instance;
   String? email;
+  bool? isLoggedIn = false;
 
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
+      setState(() {
+        if (user != null) {
+          loggedInUser = user;
+          isLoggedIn = true;
+        }
+      });
     } catch (e) {
       print(e);
     }
@@ -97,151 +101,155 @@ class _TaskListState extends State<TaskList> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: _firestore
-            .collection('tasks')
-            .where('email', isEqualTo: loggedInUser!.email)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Padding(
-              padding: EdgeInsets.only(top: 50, bottom: 50),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "There is nothing to show for now!",
-                    style: GoogleFonts.poppins(fontSize: 20),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddTask()),
-                      );
-                    },
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomRight,
-                          colors: [Colors.blue, Colors.blueAccent],
-                        ),
-                        shape: BoxShape.circle,
+    return (isLoggedIn == false)
+        ? Center(child: CircularProgressIndicator())
+        : StreamBuilder(
+            stream: _firestore
+                .collection('tasks')
+                .where('email', isEqualTo: loggedInUser!.email)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return Padding(
+                  padding: EdgeInsets.only(top: 50, bottom: 50),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "There is nothing to show for now!",
+                        style: GoogleFonts.poppins(fontSize: 20),
                       ),
-                      child: Center(
-                        child: Icon(
-                          Icons.add,
-                          size: 35,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return Padding(
-              padding:
-                  EdgeInsets.only(top: 50, bottom: 50, left: 20, right: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot doc = snapshot.data!.docs[index];
-                        return Card(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: 10,
-                              bottom: 10,
-                              left: 10,
-                              right: 10,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => AddTask()),
+                          );
+                        },
+                        child: Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomRight,
+                              colors: [Colors.blue, Colors.blueAccent],
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Title: ${doc['title']}",
-                                          style: kNormalTextStyle),
-                                      Text(
-                                        "Text: ${doc['text']}",
-                                        style: kNormalTextStyle,
-                                      ),
-                                      Text(
-                                        "Date: ${doc['date']}",
-                                        style: kNormalTextStyle,
-                                      ),
-                                      Text(
-                                        "Time: ${doc['time']}",
-                                        style: kNormalTextStyle,
-                                      ),
-                                      Text(
-                                        "Email: ${doc['email']}",
-                                        style: kNormalTextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {},
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.delete),
-                                  onPressed: () {
-                                    doc.reference.delete();
-                                  },
-                                ),
-                              ],
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.add,
+                              size: 35,
+                              color: Colors.white,
                             ),
                           ),
-                        );
-                      },
-                      itemCount: snapshot.data!.docs.length,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddTask()),
-                      );
-                    },
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomRight,
-                          colors: [Colors.blue, Colors.blueAccent],
-                        ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.add,
-                          size: 35,
-                          color: Colors.white,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }
-        });
+                );
+              } else {
+                return Padding(
+                  padding:
+                      EdgeInsets.only(top: 50, bottom: 50, left: 20, right: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot doc = snapshot.data!.docs[index];
+                            return Card(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  top: 10,
+                                  bottom: 10,
+                                  left: 10,
+                                  right: 10,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Title: ${doc['title']}",
+                                              style: kNormalTextStyle),
+                                          Text(
+                                            "Text: ${doc['text']}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                          Text(
+                                            "Date: ${doc['date']}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                          Text(
+                                            "Time: ${doc['time']}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                          Text(
+                                            "Email: ${doc['email']}",
+                                            style: kNormalTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.edit),
+                                      onPressed: () {},
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete),
+                                      onPressed: () {
+                                        doc.reference.delete();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: snapshot.data!.docs.length,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => AddTask()),
+                          );
+                        },
+                        child: Container(
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomRight,
+                              colors: [Colors.blue, Colors.blueAccent],
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.add,
+                              size: 35,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            });
   }
 }
