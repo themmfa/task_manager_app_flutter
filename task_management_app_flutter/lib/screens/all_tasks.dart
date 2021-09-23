@@ -43,6 +43,7 @@ class _AllTasksState extends State<AllTasks> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: null,
         actions: [
           IconButton(
             onPressed: () {
@@ -97,7 +98,10 @@ class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: _firestore.collection('tasks').snapshots(),
+        stream: _firestore
+            .collection('tasks')
+            .where('email', isEqualTo: loggedInUser!.email)
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Padding(

@@ -140,12 +140,14 @@ class _AddTaskState extends State<AddTask> {
                         DateFormat("MM-dd-yyyy").format(_selectedDate!);
                     String formattedTime =
                         DateFormat("HH:mm").format(_dateTime!);
-                    _firestore.collection("tasks").add({
-                      'title': _titleController.text,
-                      'text': _textController.text,
-                      'date': formatedDate,
-                      'time': formattedTime,
-                      'email': loggedInUser!.email,
+                    setState(() {
+                      _firestore.collection("tasks").add({
+                        'title': _titleController.text,
+                        'text': _textController.text,
+                        'date': formatedDate,
+                        'time': formattedTime,
+                        'email': loggedInUser!.email,
+                      });
                     });
                     Navigator.pop(context, _firestore);
                   },
