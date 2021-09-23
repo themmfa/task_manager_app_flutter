@@ -8,7 +8,6 @@ import 'package:task_management_app_flutter/constants.dart';
 import 'package:task_management_app_flutter/models/list_items.dart';
 
 final _firestore = FirebaseFirestore.instance;
-User? loggedInUser;
 
 class AllTasks extends StatefulWidget {
   static const String id = "all_tasks";
@@ -20,6 +19,7 @@ class AllTasks extends StatefulWidget {
 
 class _AllTasksState extends State<AllTasks> {
   final _auth = FirebaseAuth.instance;
+  User? loggedInUser;
 
   void getCurrentUser() async {
     try {
@@ -152,15 +152,17 @@ class _TaskListState extends State<TaskList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: ListView(
-                      children:
-                          snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data =
-                            document.data()! as Map<String, dynamic>;
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot doc = snapshot.data!.docs[index];
                         return Card(
                           child: Padding(
                             padding: EdgeInsets.only(
-                                top: 10, bottom: 10, left: 10, right: 10),
+                              top: 10,
+                              bottom: 10,
+                              left: 10,
+                              right: 10,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -169,36 +171,43 @@ class _TaskListState extends State<TaskList> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Title: ${data['title']}",
+                                      Text("Title: ${doc['title']}",
                                           style: kNormalTextStyle),
                                       Text(
-                                        "Text: ${data['text']}",
+                                        "Text: ${doc['text']}",
                                         style: kNormalTextStyle,
                                       ),
                                       Text(
-                                        "Date: ${data['date']}",
+                                        "Date: ${doc['date']}",
                                         style: kNormalTextStyle,
                                       ),
                                       Text(
-                                        "Time: ${data['time']}",
+                                        "Time: ${doc['time']}",
                                         style: kNormalTextStyle,
                                       ),
                                       Text(
-                                        "Email: ${data['email']}",
+                                        "Email: ${doc['email']}",
                                         style: kNormalTextStyle,
                                       ),
                                     ],
                                   ),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.delete),
+                                  icon: Icon(Icons.edit),
                                   onPressed: () {},
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    doc.reference.delete();
+                                  },
                                 ),
                               ],
                             ),
                           ),
                         );
-                      }).toList(),
+                      },
+                      itemCount: snapshot.data!.docs.length,
                     ),
                   ),
                   InkWell(

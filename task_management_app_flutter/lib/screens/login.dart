@@ -21,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   String? password;
   final myEmailController = TextEditingController();
   final myPasswordController = TextEditingController();
+  bool? isLoginFailed;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,10 +90,33 @@ class _LoginPageState extends State<LoginPage> {
                     password: myPasswordController.text,
                   );
                   if (user != null) {
-                    Navigator.pushNamed(context, AllTasks.id);
+                    await Navigator.pushNamed(context, AllTasks.id);
                   }
                 } catch (e) {
-                  print(e);
+                  String newString = e.toString().split("]").removeLast();
+                  setState(() {
+                    showDialog(
+                        context: context,
+                        builder: (value) => AlertDialog(
+                              title: Text(
+                                "Wrong Information",
+                                style: kNormalTextStyle,
+                              ),
+                              content: Text(
+                                newString,
+                              ),
+                              actions: [
+                                FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(value).pop();
+                                    },
+                                    child: Text(
+                                      "Close",
+                                      style: kNormalTextStyle,
+                                    ))
+                              ],
+                            ));
+                  });
                 }
               },
             ),

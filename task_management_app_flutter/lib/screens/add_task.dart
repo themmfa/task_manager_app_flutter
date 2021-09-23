@@ -16,7 +16,6 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-  List<ListItems> itemList = [];
   DateTime? _dateTime;
   DateTime? _selectedDate;
   DateTime _focusedDay = DateTime.now();
