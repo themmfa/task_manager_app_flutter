@@ -24,13 +24,11 @@ class _AddTaskState extends State<AddTask> {
 
   final _titleController = TextEditingController();
   final _textController = TextEditingController();
-  final _timeController = TextEditingController();
 
   @override
   void dispose() {
     _titleController.dispose();
     _textController.dispose();
-    _timeController.dispose();
     super.dispose();
   }
 

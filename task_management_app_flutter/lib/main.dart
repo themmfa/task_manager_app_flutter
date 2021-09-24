@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:task_management_app_flutter/screens/all_tasks.dart';
+
 import 'package:task_management_app_flutter/screens/home_page.dart';
 import 'package:task_management_app_flutter/screens/login.dart';
 import 'package:task_management_app_flutter/screens/singup.dart';

@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:task_management_app_flutter/screens/add_task.dart';
 import 'package:task_management_app_flutter/constants.dart';
-import 'package:task_management_app_flutter/models/list_items.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -45,6 +47,7 @@ class _AllTasksState extends State<AllTasks> {
       backgroundColor: Colors.blueAccent,
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
+        automaticallyImplyLeading: false,
         elevation: 0,
         bottomOpacity: 0,
         actions: [
@@ -80,6 +83,12 @@ class _TaskListState extends State<TaskList> {
   final _auth = FirebaseAuth.instance;
   String? email;
   bool? isLoggedIn = false;
+  DateTime? _updatedDateTime;
+  DateTime? _updatedSelectedDate;
+  DateTime _focusedDay = DateTime.now();
+  CalendarFormat _calendarFormat = CalendarFormat.week;
+  final _titleController = TextEditingController();
+  final _textController = TextEditingController();
 
   void getCurrentUser() async {
     try {
@@ -163,7 +172,7 @@ class _TaskListState extends State<TaskList> {
                             DocumentSnapshot doc = snapshot.data!.docs[index];
                             return Card(
                               color: Colors.blueAccent,
-                              elevation: 0,
+                              elevation: 5,
                               child: Padding(
                                 padding: EdgeInsets.only(
                                   top: 10,
@@ -206,7 +215,137 @@ class _TaskListState extends State<TaskList> {
                                         Icons.edit,
                                         color: Colors.white,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.7,
+                                                color: Colors.white,
+                                                child: Column(
+                                                  children: [
+                                                    TableCalendar(
+                                                      focusedDay: _focusedDay,
+                                                      firstDay: DateTime(2021),
+                                                      lastDay: DateTime(2030),
+                                                      calendarFormat:
+                                                          _calendarFormat,
+                                                      selectedDayPredicate:
+                                                          (day) {
+                                                        return isSameDay(
+                                                            _updatedSelectedDate,
+                                                            day);
+                                                      },
+                                                      onDaySelected:
+                                                          (selectedDate,
+                                                              focusedDay) {
+                                                        if (!isSameDay(
+                                                            _updatedSelectedDate,
+                                                            selectedDate)) {
+                                                          setState(() {
+                                                            _updatedSelectedDate =
+                                                                selectedDate;
+                                                            _focusedDay =
+                                                                focusedDay;
+                                                          });
+                                                        }
+                                                      },
+                                                      onFormatChanged:
+                                                          (format) {
+                                                        if (_calendarFormat !=
+                                                            format) {
+                                                          setState(() {
+                                                            _calendarFormat =
+                                                                format;
+                                                          });
+                                                        }
+                                                      },
+                                                      onPageChanged:
+                                                          (focusedDay) {
+                                                        _focusedDay =
+                                                            focusedDay;
+                                                      },
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    TimePickerSpinner(
+                                                      is24HourMode: true,
+                                                      normalTextStyle:
+                                                          GoogleFonts.poppins(
+                                                              fontSize: 20),
+                                                      onTimeChange: (time) {
+                                                        setState(() {
+                                                          _updatedDateTime =
+                                                              time;
+                                                        });
+                                                      },
+                                                    ),
+                                                    TextField(
+                                                      controller:
+                                                          _titleController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintText:
+                                                            "Provide your title",
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    TextField(
+                                                      controller:
+                                                          _textController,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintText:
+                                                            "Provide your text",
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        String formatedDate =
+                                                            DateFormat(
+                                                                    "MM-dd-yyyy")
+                                                                .format(
+                                                                    _updatedSelectedDate!);
+                                                        String formattedTime =
+                                                            DateFormat("HH:mm")
+                                                                .format(
+                                                                    _updatedDateTime!);
+                                                        setState(() {
+                                                          doc.reference.update({
+                                                            'title':
+                                                                _titleController
+                                                                    .text,
+                                                            'text':
+                                                                _textController
+                                                                    .text,
+                                                            'date':
+                                                                formatedDate,
+                                                            'time':
+                                                                formattedTime,
+                                                            'email':
+                                                                loggedInUser!
+                                                                    .email,
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Edit Task"),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                      },
                                     ),
                                     IconButton(
                                       icon: Icon(
