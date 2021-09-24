@@ -11,6 +11,7 @@ void main() async {
   await Firebase.initializeApp();
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: HomePage.id,
       routes: {
         HomePage.id: (context) => HomePage(),
